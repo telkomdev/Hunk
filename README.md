@@ -1,6 +1,6 @@
 # Hunk
 
-Java 11 Http client with simple approach
+Java 11 Http client with simple taste
 
 ### Usage
 
