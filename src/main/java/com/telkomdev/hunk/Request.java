@@ -19,20 +19,27 @@ import java.util.concurrent.Future;
 
 // Author Wuriyanto
 
-// Important notes:
-// This Class required JDK 11 API or Higher
+/**
+ * Important notes:
+ * This Class required JDK 11 API or Higher
+ */
 public class Request {
 
-    // If you need to add more http headers
-    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
+    /**
+     * If you need to add more http headers
+     * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
+     */
     public static final String ACCEPT = "Accept";
     public static final String AUTHORIZATION = "Authorization";
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String CONTENT_DISPOSITION = "Content-Disposition";
     public static final String USER_AGENT = "User-Agent";
 
-    // http method
-    // https://developer.mozilla.org/id/docs/Web/HTTP/Methods
+
+    /**
+     * http method
+     * https://developer.mozilla.org/id/docs/Web/HTTP/Methods
+     */
     public enum HttpMethod {
         CONNECT, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, TRACE
     }
@@ -213,10 +220,21 @@ public class Request {
                 .send(request, HttpResponse.BodyHandlers.ofByteArray());
     }
 
+    /**
+     * @param data
+     * @return
+     * @throws URISyntaxException
+     * @throws FileNotFoundException
+     */
     public static HttpRequest.BodyPublisher ofByteArray(byte[] data) throws URISyntaxException, FileNotFoundException {
         return HttpRequest.BodyPublishers.ofByteArray(data);
     }
 
+    /**
+     * @param data
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     public static HttpRequest.BodyPublisher ofFormData(Map<Object, Object> data) throws UnsupportedEncodingException {
         StringBuilder builder = new StringBuilder();
         for (Map.Entry<Object, Object> entry : data.entrySet()) {
@@ -230,10 +248,21 @@ public class Request {
         return HttpRequest.BodyPublishers.ofString(builder.toString());
     }
 
+    /**
+     * @param path
+     * @return
+     * @throws URISyntaxException
+     * @throws FileNotFoundException
+     */
     public static HttpRequest.BodyPublisher ofFile(String path) throws URISyntaxException, FileNotFoundException {
         return HttpRequest.BodyPublishers.ofFile(Paths.get(new URI(path)));
     }
 
+    /**
+     * @param data
+     * @param <I>
+     * @return
+     */
     public static <I> HttpRequest.BodyPublisher ofJsonObject(I data) {
         String body = JsonUtil.dataToJson(data);
         return HttpRequest.BodyPublishers.ofString(body);
