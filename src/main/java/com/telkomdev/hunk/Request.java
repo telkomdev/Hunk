@@ -111,6 +111,29 @@ public class Request {
     }
 
     /**
+     * @param method
+     * @param url
+     * @param headers
+     * @param data
+     * @param timeout
+     * @return
+     * @throws URISyntaxException
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public static HttpResponse<byte[]> doSync(HttpMethod method,
+                                              String url,
+                                              Map<String, String> headers,
+                                              HttpRequest.BodyPublisher data,
+                                              long timeout) throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest.Builder requestBuilder = getHttpRequestBuilder(method, url, headers, data, timeout);
+
+        HttpRequest request = requestBuilder.build();
+
+        return sendSync(request);
+    }
+
+    /**
      * @param url
      * @param headers
      * @return
