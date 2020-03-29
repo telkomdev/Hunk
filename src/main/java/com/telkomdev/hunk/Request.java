@@ -2,6 +2,7 @@ package com.telkomdev.hunk;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.ProxySelector;
 import java.net.URI;
@@ -16,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
+import java.util.function.Supplier;
 
 // Author Wuriyanto
 
@@ -265,6 +267,17 @@ public class Request {
      */
     public static HttpRequest.BodyPublisher ofFile(String path) throws URISyntaxException, FileNotFoundException {
         return HttpRequest.BodyPublishers.ofFile(Paths.get(new URI(path)));
+    }
+
+    /**
+     * @param inputStream
+     * @return Example:
+     * Future<HttpResponse<byte[]>> future = Request.doAsync(Request.HttpMethod.POST,
+     * "https://jsonplaceholder.typicode.com/posts",
+     * headers, Request.ofInputStream(() -> new ByteArrayInputStream(JsonUtil.dataToJson(p).getBytes())), 0);
+     */
+    public static HttpRequest.BodyPublisher ofInputStream(Supplier<InputStream> inputStream) {
+        return HttpRequest.BodyPublishers.ofInputStream(inputStream);
     }
 
     /**
