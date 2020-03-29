@@ -162,7 +162,7 @@ public class Request {
                 requestBuilder.GET();
                 break;
             case HEAD:
-                requestBuilder.method(HttpMethod.HEAD.name(), data);
+                requestBuilder.method(HttpMethod.HEAD.name(), HttpRequest.BodyPublishers.noBody());
                 break;
             case OPTIONS:
                 requestBuilder.method(HttpMethod.OPTIONS.name(), data);
