@@ -35,7 +35,6 @@ public class Request {
     public static final String CONTENT_DISPOSITION = "Content-Disposition";
     public static final String USER_AGENT = "User-Agent";
 
-
     /**
      * http method
      * https://developer.mozilla.org/id/docs/Web/HTTP/Methods
@@ -49,7 +48,7 @@ public class Request {
      * @param url
      * @param headers
      * @param data
-     * @param timeout
+     * @param connectTimeout
      * @return
      * @throws URISyntaxException Usage: PUT
      *                            Map<String, String> headers = new HashMap<>();
@@ -108,12 +107,12 @@ public class Request {
                                                        String url,
                                                        Map<String, String> headers,
                                                        HttpRequest.BodyPublisher data,
-                                                       long timeout) throws URISyntaxException {
-        HttpRequest.Builder requestBuilder = getHttpRequestBuilder(method, url, headers, data, timeout);
+                                                       long connectTimeout) throws URISyntaxException {
+        HttpRequest.Builder requestBuilder = getHttpRequestBuilder(method, url, headers, data);
 
         HttpRequest request = requestBuilder.build();
 
-        CompletableFuture<HttpResponse<byte[]>> future = sendAsync(request);
+        CompletableFuture<HttpResponse<byte[]>> future = sendAsync(request, connectTimeout);
         return future;
     }
 
@@ -122,7 +121,7 @@ public class Request {
      * @param url
      * @param headers
      * @param data
-     * @param timeout
+     * @param connectTimeout
      * @return
      * @throws URISyntaxException
      * @throws IOException
@@ -132,12 +131,12 @@ public class Request {
                                               String url,
                                               Map<String, String> headers,
                                               HttpRequest.BodyPublisher data,
-                                              long timeout) throws URISyntaxException, IOException, InterruptedException {
-        HttpRequest.Builder requestBuilder = getHttpRequestBuilder(method, url, headers, data, timeout);
+                                              long connectTimeout) throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest.Builder requestBuilder = getHttpRequestBuilder(method, url, headers, data);
 
         HttpRequest request = requestBuilder.build();
 
-        return sendSync(request);
+        return sendSync(request, connectTimeout);
     }
 
     /**
@@ -149,8 +148,7 @@ public class Request {
     private static HttpRequest.Builder getHttpRequestBuilder(HttpMethod method,
                                                              String url,
                                                              Map<String, String> headers,
-                                                             HttpRequest.BodyPublisher data,
-                                                             long timeout) throws URISyntaxException {
+                                                             HttpRequest.BodyPublisher data) throws URISyntaxException {
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder();
 
         switch (method) {
@@ -190,7 +188,8 @@ public class Request {
         }
 
         requestBuilder.uri(new URI(url));
-        requestBuilder.timeout(Duration.of(timeout, ChronoUnit.SECONDS));
+        // do we need timeout for waiting the response?
+        //requestBuilder.timeout(Duration.of(timeout, ChronoUnit.SECONDS));
         return requestBuilder;
     }
 
@@ -198,12 +197,17 @@ public class Request {
      * @param request
      * @return
      */
-    private static CompletableFuture<HttpResponse<byte[]>> sendAsync(HttpRequest request) {
-        return HttpClient.newBuilder()
-                .followRedirects(HttpClient.Redirect.ALWAYS)
-                .proxy(ProxySelector.getDefault())
-                .build()
-                .sendAsync(request, HttpResponse.BodyHandlers.ofByteArray());
+    private static CompletableFuture<HttpResponse<byte[]>> sendAsync(HttpRequest request, Long connectTimeout) {
+        HttpClient.Builder clientBuilder = HttpClient.newBuilder();
+
+        if (connectTimeout != 0) {
+            clientBuilder.connectTimeout(Duration.of(connectTimeout, ChronoUnit.SECONDS));
+        }
+
+        clientBuilder.followRedirects(HttpClient.Redirect.ALWAYS);
+        clientBuilder.proxy(ProxySelector.getDefault());
+        HttpClient client = clientBuilder.build();
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray());
     }
 
     /**
@@ -212,12 +216,17 @@ public class Request {
      * @throws IOException
      * @throws InterruptedException
      */
-    private static HttpResponse<byte[]> sendSync(HttpRequest request) throws IOException, InterruptedException {
-        return HttpClient.newBuilder()
-                .followRedirects(HttpClient.Redirect.ALWAYS)
-                .proxy(ProxySelector.getDefault())
-                .build()
-                .send(request, HttpResponse.BodyHandlers.ofByteArray());
+    private static HttpResponse<byte[]> sendSync(HttpRequest request, Long connectTimeout) throws IOException, InterruptedException {
+        HttpClient.Builder clientBuilder = HttpClient.newBuilder();
+
+        if (connectTimeout != 0) {
+            clientBuilder.connectTimeout(Duration.of(connectTimeout, ChronoUnit.SECONDS));
+        }
+
+        clientBuilder.followRedirects(HttpClient.Redirect.ALWAYS);
+        clientBuilder.proxy(ProxySelector.getDefault());
+        HttpClient client = clientBuilder.build();
+        return client.send(request, HttpResponse.BodyHandlers.ofByteArray());
     }
 
     /**
