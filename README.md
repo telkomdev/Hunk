@@ -2,6 +2,8 @@
 
 Java 11 Http client with simple taste
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/5c760b0d5da52b887a73/maintainability)](https://codeclimate.com/github/telkomdev/Hunk/maintainability)
+
 ### Usage
 
 POST
