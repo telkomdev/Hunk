@@ -109,7 +109,7 @@ public class Request {
                                                        String url,
                                                        Map<String, String> headers,
                                                        HttpRequest.BodyPublisher data,
-                                                       long connectTimeout) throws URISyntaxException {
+                                                       long connectTimeout) throws URISyntaxException, HunkMethodNotSupportedException {
         HttpRequest.Builder requestBuilder = getHttpRequestBuilder(method, url, headers, data);
 
         HttpRequest request = requestBuilder.build();
@@ -133,7 +133,7 @@ public class Request {
                                               String url,
                                               Map<String, String> headers,
                                               HttpRequest.BodyPublisher data,
-                                              long connectTimeout) throws URISyntaxException, IOException, InterruptedException {
+                                              long connectTimeout) throws URISyntaxException, IOException, InterruptedException, HunkMethodNotSupportedException {
         HttpRequest.Builder requestBuilder = getHttpRequestBuilder(method, url, headers, data);
 
         HttpRequest request = requestBuilder.build();
@@ -150,13 +150,12 @@ public class Request {
     private static HttpRequest.Builder getHttpRequestBuilder(HttpMethod method,
                                                              String url,
                                                              Map<String, String> headers,
-                                                             HttpRequest.BodyPublisher data) throws URISyntaxException {
+                                                             HttpRequest.BodyPublisher data) throws URISyntaxException, HunkMethodNotSupportedException {
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder();
 
         switch (method) {
             case CONNECT:
-                requestBuilder.method(HttpMethod.CONNECT.name(), data);
-                break;
+                throw new HunkMethodNotSupportedException("connect");
             case DELETE:
                 requestBuilder.DELETE();
                 break;
@@ -167,7 +166,7 @@ public class Request {
                 requestBuilder.method(HttpMethod.HEAD.name(), HttpRequest.BodyPublishers.noBody());
                 break;
             case OPTIONS:
-                requestBuilder.method(HttpMethod.OPTIONS.name(), data);
+                requestBuilder.method(HttpMethod.OPTIONS.name(), HttpRequest.BodyPublishers.noBody());
                 break;
             case PATCH:
                 requestBuilder.method(HttpMethod.PATCH.name(), data);
@@ -179,7 +178,7 @@ public class Request {
                 requestBuilder.PUT(data);
                 break;
             case TRACE:
-                requestBuilder.method(HttpMethod.TRACE.name(), data);
+                requestBuilder.method(HttpMethod.TRACE.name(), HttpRequest.BodyPublishers.noBody());
                 break;
         }
 
