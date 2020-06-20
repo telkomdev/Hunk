@@ -25,7 +25,11 @@ import java.util.function.Supplier;
  * Important notes:
  * This Class required JDK 11 API or Higher
  */
-public class Request {
+public final class Request {
+
+    private Request() {
+        
+    }
 
     /**
      * If you need to add more http headers
