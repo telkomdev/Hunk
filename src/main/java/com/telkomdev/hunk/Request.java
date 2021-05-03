@@ -28,7 +28,7 @@ import java.util.function.Supplier;
 public final class Request {
 
     private Request() {
-        
+
     }
 
     /**
@@ -46,7 +46,29 @@ public final class Request {
      * https://developer.mozilla.org/id/docs/Web/HTTP/Methods
      */
     public enum HttpMethod {
-        CONNECT, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, TRACE
+        CONNECT, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT, TRACE;
+
+        public static HttpMethod from(String method) {
+            if (method.equals("connect") || method.equals("CONNECT"))
+                return CONNECT;
+            if (method.equals("delete") || method.equals("DELETE"))
+                return DELETE;
+            if (method.equals("get") || method.equals("GET"))
+                return GET;
+            if (method.equals("head") || method.equals("HEAD"))
+                return HEAD;
+            if (method.equals("options") || method.equals("OPTIONS"))
+                return OPTIONS;
+            if (method.equals("patch") || method.equals("PATCH"))
+                return PATCH;
+            if (method.equals("post") || method.equals("POST"))
+                return POST;
+            if (method.equals("put") || method.equals("PUT"))
+                return PUT;
+            if (method.equals("trace") || method.equals("TRACE"))
+                return TRACE;
+            return GET;
+        }
     }
 
     /**
