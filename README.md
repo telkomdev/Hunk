@@ -6,6 +6,49 @@ Java 11 Http client with simple taste
 
 ### Usage
 
+The Post `class`
+```java
+public class Post {
+    private Integer id;
+    private Integer userId;
+    private String title;
+    private String body;
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+}
+```
+
 POST
 ```java
 public class App {
@@ -63,6 +106,39 @@ public class App {
         Post post = JsonUtil.jsonToData(Post.class, response.body());
 
         System.out.println(post);
+
+
+    }
+}
+```
+
+GET from string
+
+```java
+public class App {
+
+    public static void main(String[] args) throws HunkMethodNotSupportedException,
+            URISyntaxException, IOException, ExecutionException, InterruptedException {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Request.CONTENT_TYPE, "application/json");
+        headers.put(Request.ACCEPT, "application/json");
+
+        Future<HttpResponse<byte[]>> future = Request.doAsync(Request.HttpMethod.from("get"),
+                "https://jsonplaceholder.typicode.com/posts/1",
+                headers, null, 2);
+
+        HttpResponse<byte[]> response = future.get();
+        HttpHeaders respHeaders = response.headers();
+
+        respHeaders.map().forEach((key, values) -> {
+            System.out.println(key);
+            System.out.println(values);
+        });
+
+        Post post = JsonUtil.jsonToData(Post.class, response.body());
+
+        System.out.println(post.getTitle());
+        System.out.println(post.getBody());
 
 
     }
