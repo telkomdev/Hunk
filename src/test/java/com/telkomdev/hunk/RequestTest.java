@@ -17,26 +17,26 @@ public class RequestTest extends TestCase {
     public void testHttpMethod() {
         assertTrue(true);
 
-        Request.HttpMethod httpMethodGet0 = Request.HttpMethod.from("get");
-        Request.HttpMethod httpMethodGet1 = Request.HttpMethod.from("GET");
+        Hunk.HttpMethod httpMethodGet0 = Hunk.HttpMethod.from("get");
+        Hunk.HttpMethod httpMethodGet1 = Hunk.HttpMethod.from("GET");
 
-        assertEquals(Request.HttpMethod.GET, httpMethodGet0);
-        assertEquals(Request.HttpMethod.GET, httpMethodGet1);
+        assertEquals(Hunk.HttpMethod.GET, httpMethodGet0);
+        assertEquals(Hunk.HttpMethod.GET, httpMethodGet1);
 
-        Request.HttpMethod httpMethodPost0 = Request.HttpMethod.from("post");
-        Request.HttpMethod httpMethodPost1 = Request.HttpMethod.from("POST");
+        Hunk.HttpMethod httpMethodPost0 = Hunk.HttpMethod.from("post");
+        Hunk.HttpMethod httpMethodPost1 = Hunk.HttpMethod.from("POST");
 
-        assertEquals(Request.HttpMethod.POST, httpMethodPost0);
-        assertEquals(Request.HttpMethod.POST, httpMethodPost1);
+        assertEquals(Hunk.HttpMethod.POST, httpMethodPost0);
+        assertEquals(Hunk.HttpMethod.POST, httpMethodPost1);
 
-        Request.HttpMethod httpMethodPut0 = Request.HttpMethod.from("put");
-        Request.HttpMethod httpMethodPut1 = Request.HttpMethod.from("PUT");
+        Hunk.HttpMethod httpMethodPut0 = Hunk.HttpMethod.from("put");
+        Hunk.HttpMethod httpMethodPut1 = Hunk.HttpMethod.from("PUT");
 
-        assertEquals(Request.HttpMethod.PUT, httpMethodPut0);
-        assertEquals(Request.HttpMethod.PUT, httpMethodPut1);
+        assertEquals(Hunk.HttpMethod.PUT, httpMethodPut0);
+        assertEquals(Hunk.HttpMethod.PUT, httpMethodPut1);
 
-        Request.HttpMethod httpMethodInvalid = Request.HttpMethod.from("invalidHttpMethod");
+        Hunk.HttpMethod httpMethodInvalid = Hunk.HttpMethod.from("invalidHttpMethod");
 
-        assertEquals(Request.HttpMethod.GET, httpMethodInvalid);
+        assertEquals(Hunk.HttpMethod.GET, httpMethodInvalid);
     }
 }
