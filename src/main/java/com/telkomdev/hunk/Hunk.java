@@ -269,15 +269,7 @@ public final class Hunk {
      * @return
      */
     private static CompletableFuture<HttpResponse<byte[]>> sendAsync(HttpRequest request, Long connectTimeout) {
-        HttpClient.Builder clientBuilder = HttpClient.newBuilder();
-
-        if (connectTimeout != 0) {
-            clientBuilder.connectTimeout(Duration.of(connectTimeout, ChronoUnit.SECONDS));
-        }
-
-        clientBuilder.followRedirects(HttpClient.Redirect.ALWAYS);
-        clientBuilder.proxy(ProxySelector.getDefault());
-        HttpClient client = clientBuilder.build();
+        HttpClient client = buildHttpClient(connectTimeout);
         return client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray());
     }
 
@@ -288,6 +280,15 @@ public final class Hunk {
      * @throws InterruptedException
      */
     private static HttpResponse<byte[]> sendSync(HttpRequest request, Long connectTimeout) throws IOException, InterruptedException {
+        HttpClient client = buildHttpClient(connectTimeout);
+        return client.send(request, HttpResponse.BodyHandlers.ofByteArray());
+    }
+
+    /**
+     * @param connectTimeout
+     * @return
+     */
+    private static HttpClient buildHttpClient(Long connectTimeout) {
         HttpClient.Builder clientBuilder = HttpClient.newBuilder();
 
         if (connectTimeout != 0) {
@@ -296,8 +297,7 @@ public final class Hunk {
 
         clientBuilder.followRedirects(HttpClient.Redirect.ALWAYS);
         clientBuilder.proxy(ProxySelector.getDefault());
-        HttpClient client = clientBuilder.build();
-        return client.send(request, HttpResponse.BodyHandlers.ofByteArray());
+        return clientBuilder.build();
     }
 
     /**
