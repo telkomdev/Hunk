@@ -1,11 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- add this section to use hunk as sub module to your project -->
+    <!--    <parent>-->
+    <!--        <groupId>com.yourname.your-project</groupId>-->
+    <!--        <artifactId>your-project</artifactId>-->
+    <!--        <version>1.0-SNAPSHOT</version>-->
+    <!--    </parent>-->
+
     <groupId>com.telkomdev</groupId>
     <artifactId>hunk</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>hunk</name>
+    <description>Java 11 Http client with simple taste</description>
     <url>http://maven.apache.org</url>
     <properties>
         <!-- https://maven.apache.org/general.html#encoding-warning -->
