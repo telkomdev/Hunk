@@ -1,5 +1,7 @@
 package com.telkomdev.hunk;
 
+import io.reactivex.rxjava3.core.Observable;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -142,6 +144,48 @@ public final class Request {
 
         CompletableFuture<HttpResponse<byte[]>> future = sendAsync(request, connectTimeout);
         return future;
+    }
+
+    /**
+     * @param method
+     * @param url
+     * @param headers
+     * @param data
+     * @param connectTimeout
+     * @return
+     * @throws URISyntaxException
+     * @throws HunkMethodNotSupportedException Usage:
+     *                                         Usage: GET
+     *                                         Map<String, String> headers = new HashMap<>();
+     *                                         headers.put(Request.CONTENT_TYPE, "application/json");
+     *                                         <p>
+     *                                         Observable<HttpResponse<byte[]>> resultObserver = Request.doAsyncReactive(Request.HttpMethod.GET,
+     *                                         "https://jsonplaceholder.typicode.com/posts",
+     *                                         headers, null, 0);
+     *                                         <p>
+     *                                         resultObserver.subscribe(response -> {
+     *                                         HttpHeaders respHeaders = response.headers();
+     *                                         <p>
+     *                                         respHeaders.map().forEach((key, values) -> {
+     *                                         System.out.println(key);
+     *                                         System.out.println(values);
+     *                                         });
+     *                                         <p>
+     *                                         List<Post> posts = Arrays.asList(JsonUtil.jsonToData(Post[].class, response.body()));
+     *                                         <p>
+     *                                         System.out.println(response.statusCode());
+     *                                         for (Post post : posts) {
+     *                                         System.out.println(post.getTitle());
+     *                                         }
+     *                                         }, throwable -> System.out.println(throwable.getMessage()));
+     */
+    public static Observable<HttpResponse<byte[]>> doAsyncReactive(HttpMethod method,
+                                                                   String url,
+                                                                   Map<String, String> headers,
+                                                                   HttpRequest.BodyPublisher data,
+                                                                   long connectTimeout) throws URISyntaxException, HunkMethodNotSupportedException {
+        Future<HttpResponse<byte[]>> future = doAsync(method, url, headers, data, connectTimeout);
+        return Observable.fromFuture(future);
     }
 
     /**
