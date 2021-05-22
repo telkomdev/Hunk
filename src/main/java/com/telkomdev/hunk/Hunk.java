@@ -27,9 +27,9 @@ import java.util.function.Supplier;
  * Important notes:
  * This Class required JDK 11 API or Higher
  */
-public final class Request {
+public final class Hunk {
 
-    private Request() {
+    private Hunk() {
 
     }
 
@@ -82,54 +82,54 @@ public final class Request {
      * @return
      * @throws URISyntaxException Usage: PUT
      *                            Map<String, String> headers = new HashMap<>();
-     *                            headers.put(Request.CONTENT_TYPE, "application/json");
+     *                            headers.put(Hunk.CONTENT_TYPE, "application/json");
      *                            <p>
      *                            Post p = new Post(1, 1, "Java 11", "The awesome of Java 11");
      *                            <p>
-     *                            Future<HttpResponse<byte[]>> future = Request.doAsync(Request.HttpMethod.PUT,
+     *                            Future<HttpResponse<byte[]>> future = Hunk.doAsync(Hunk.HttpMethod.PUT,
      *                            "https://api.mysite.com/posts/1",
-     *                            headers, Request.ofJsonObject(p), 2);
+     *                            headers, Hunk.ofJsonObject(p), 2);
      *                            <p>
      *                            HttpResponse<byte[]> response = future.get();
      *                            <p>
      *                            Usage: POST
      *                            Map<String, String> headers = new HashMap<>();
-     *                            headers.put(Request.CONTENT_TYPE, "application/json");
+     *                            headers.put(Hunk.CONTENT_TYPE, "application/json");
      *                            <p>
      *                            Post p = new Post(1, 1, "Java 11", "The awesome of Java 11");
      *                            <p>
-     *                            Future<HttpResponse<byte[]>> future = Request.doAsync(Request.HttpMethod.POST,
+     *                            Future<HttpResponse<byte[]>> future = Hunk.doAsync(Hunk.HttpMethod.POST,
      *                            "https://api.mysite.com/posts/1",
-     *                            headers, Request.ofJsonObject(p), 2);
+     *                            headers, Hunk.ofJsonObject(p), 2);
      *                            <p>
      *                            HttpResponse<byte[]> response = future.get();
      *                            Usage: DELETE
      *                            Map<String, String> headers = new HashMap<>();
-     *                            headers.put(Request.CONTENT_TYPE, "application/json");
+     *                            headers.put(Hunk.CONTENT_TYPE, "application/json");
      *                            <p>
-     *                            Future<HttpResponse<byte[]>> future = Request.doAsync(Request.HttpMethod.DELETE,
+     *                            Future<HttpResponse<byte[]>> future = Hunk.doAsync(Hunk.HttpMethod.DELETE,
      *                            "https://api.mysite.com/posts/1",
      *                            headers, null, 2);
      *                            <p>
      *                            HttpResponse<byte[]> response = future.get();
      *                            Usage: GET
      *                            Map<String, String> headers = new HashMap<>();
-     *                            headers.put(Request.CONTENT_TYPE, "application/json");
+     *                            headers.put(Hunk.CONTENT_TYPE, "application/json");
      *                            <p>
-     *                            Future<HttpResponse<byte[]>> future = Request.doAsync(Request.HttpMethod.GET,
+     *                            Future<HttpResponse<byte[]>> future = Hunk.doAsync(Hunk.HttpMethod.GET,
      *                            "https://api.mysite.com/posts/1",
      *                            headers, null, 2);
      *                            <p>
      *                            HttpResponse<byte[]> response = future.get();
      *                            Usage: PATCH
      *                            Map<String, String> headers = new HashMap<>();
-     *                            headers.put(Request.CONTENT_TYPE, "application/json");
+     *                            headers.put(Hunk.CONTENT_TYPE, "application/json");
      *                            <p>
      *                            Post p = new Post(1, 1, "Java 11", "The awesome of Java 11");
      *                            <p>
-     *                            Future<HttpResponse<byte[]>> future = Request.doAsync(Request.HttpMethod.PATCH,
+     *                            Future<HttpResponse<byte[]>> future = Hunk.doAsync(Hunk.HttpMethod.PATCH,
      *                            "https://api.mysite.com/posts/1",
-     *                            headers, Request.ofJsonObject(p), 2);
+     *                            headers, Hunk.ofJsonObject(p), 2);
      *                            <p>
      *                            HttpResponse<byte[]> response = future.get();
      */
@@ -157,9 +157,9 @@ public final class Request {
      * @throws HunkMethodNotSupportedException Usage:
      *                                         Usage: GET
      *                                         Map<String, String> headers = new HashMap<>();
-     *                                         headers.put(Request.CONTENT_TYPE, "application/json");
+     *                                         headers.put(Hunk.CONTENT_TYPE, "application/json");
      *                                         <p>
-     *                                         Observable<HttpResponse<byte[]>> resultObserver = Request.doAsyncReactive(Request.HttpMethod.GET,
+     *                                         Observable<HttpResponse<byte[]>> resultObserver = Hunk.doAsyncReactive(Hunk.HttpMethod.GET,
      *                                         "https://jsonplaceholder.typicode.com/posts",
      *                                         headers, null, 0);
      *                                         <p>
@@ -341,9 +341,9 @@ public final class Request {
     /**
      * @param inputStream
      * @return Example:
-     * Future<HttpResponse<byte[]>> future = Request.doAsync(Request.HttpMethod.POST,
+     * Future<HttpResponse<byte[]>> future = Hunk.doAsync(Hunk.HttpMethod.POST,
      * "https://jsonplaceholder.typicode.com/posts",
-     * headers, Request.ofInputStream(() -> new ByteArrayInputStream(JsonUtil.dataToJson(p).getBytes())), 0);
+     * headers, Hunk.ofInputStream(() -> new ByteArrayInputStream(JsonUtil.dataToJson(p).getBytes())), 0);
      */
     public static HttpRequest.BodyPublisher ofInputStream(Supplier<InputStream> inputStream) {
         return HttpRequest.BodyPublishers.ofInputStream(inputStream);
