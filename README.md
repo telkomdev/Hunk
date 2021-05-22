@@ -144,3 +144,38 @@ public class App {
     }
 }
 ```
+
+#### Reactive feature with RxJava
+
+```java
+public class Main {
+
+    public static void main(String[] args) throws HunkMethodNotSupportedException,
+            URISyntaxException, IOException, ExecutionException, InterruptedException {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Request.CONTENT_TYPE, "application/json");
+
+        Observable<HttpResponse<byte[]>> resultObserver = Request.doAsyncReactive(Request.HttpMethod.from("get"),
+                "https://jsonplaceholder.typicode.com/posts",
+                headers, null, 0);
+
+        resultObserver.subscribe(response -> {
+            HttpHeaders respHeaders = response.headers();
+
+            respHeaders.map().forEach((key, values) -> {
+                System.out.println(key);
+                System.out.println(values);
+            });
+
+            List<Post> posts = Arrays.asList(JsonUtil.jsonToData(Post[].class, response.body()));
+
+            System.out.println(response.statusCode());
+            for (Post post : posts) {
+                System.out.println(post.getTitle());
+            }
+        }, throwable -> System.out.println(throwable.getMessage()));
+
+
+    }
+}
+```
