@@ -56,13 +56,13 @@ public class App {
     public static void main(String[] args) throws InterruptedException, ExecutionException, IOException, URISyntaxException {
 
         Map<String, String> headers = new HashMap<>();
-        headers.put(Request.CONTENT_TYPE, "application/json");
+        headers.put(Hunk.CONTENT_TYPE, "application/json");
 
         Post p = new Post(1, 1, "Java 11", "The awesome of Java 11");
 
-        Future<HttpResponse<byte[]>> future = Request.doAsync(Request.HttpMethod.POST,
+        Future<HttpResponse<byte[]>> future = Hunk.doAsync(Hunk.HttpMethod.POST,
                 "https://jsonplaceholder.typicode.com/posts",
-                headers, Request.ofJsonObject(p), 2);
+                headers, Hunk.ofJsonObject(p), 2);
 
         HttpResponse<byte[]> response = future.get();
         HttpHeaders respHeaders = response.headers();
@@ -88,10 +88,10 @@ public class App {
     public static void main(String[] args) throws InterruptedException, ExecutionException, IOException, URISyntaxException {
 
         Map<String, String> headers = new HashMap<>();
-        headers.put(Request.CONTENT_TYPE, "application/json");
-        headers.put(Request.ACCEPT, "application/json");
+        headers.put(Hunk.CONTENT_TYPE, "application/json");
+        headers.put(Hunk.ACCEPT, "application/json");
 
-        Future<HttpResponse<byte[]>> future = Request.doAsync(Request.HttpMethod.GET,
+        Future<HttpResponse<byte[]>> future = Hunk.doAsync(Hunk.HttpMethod.GET,
                 "https://jsonplaceholder.typicode.com/posts/1",
                 headers, null, 2);
 
@@ -120,10 +120,10 @@ public class App {
     public static void main(String[] args) throws HunkMethodNotSupportedException,
             URISyntaxException, IOException, ExecutionException, InterruptedException {
         Map<String, String> headers = new HashMap<>();
-        headers.put(Request.CONTENT_TYPE, "application/json");
-        headers.put(Request.ACCEPT, "application/json");
+        headers.put(Hunk.CONTENT_TYPE, "application/json");
+        headers.put(Hunk.ACCEPT, "application/json");
 
-        Future<HttpResponse<byte[]>> future = Request.doAsync(Request.HttpMethod.from("get"),
+        Future<HttpResponse<byte[]>> future = Hunk.doAsync(Hunk.HttpMethod.from("get"),
                 "https://jsonplaceholder.typicode.com/posts/1",
                 headers, null, 2);
 
@@ -153,9 +153,9 @@ public class Main {
     public static void main(String[] args) throws HunkMethodNotSupportedException,
             URISyntaxException, IOException, ExecutionException, InterruptedException {
         Map<String, String> headers = new HashMap<>();
-        headers.put(Request.CONTENT_TYPE, "application/json");
+        headers.put(Hunk.CONTENT_TYPE, "application/json");
 
-        Observable<HttpResponse<byte[]>> resultObserver = Request.doAsyncReactive(Request.HttpMethod.from("get"),
+        Observable<HttpResponse<byte[]>> resultObserver = Hunk.doAsyncReactive(Hunk.HttpMethod.from("get"),
                 "https://jsonplaceholder.typicode.com/posts",
                 headers, null, 0);
 
